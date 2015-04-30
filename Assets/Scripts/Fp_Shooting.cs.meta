@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b9781998942ccf64cafeb1cd17b85bce
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - bulletPrefab: {fileID: 142708, guid: f8bbf268eaf1ddc4fa9f539ae77fec34, type: 2}
+  - bulletCasePrefab: {fileID: 116050, guid: 0ddc9cdc7772c404792d96442a116ce3, type: 2}
+  - ammoText: {instanceID: 0}
+  - maxAmmoText: {instanceID: 0}
+  - audio1: {instanceID: 0}
+  - audio2: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
