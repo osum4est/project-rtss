@@ -1,0 +1,64 @@
+html, body, header, footer, p, section, h1 {
+    margin: 0;
+    padding: 0;   
+}
+
+
+@font-face {
+    font-family: saber;
+    src: url(fonts/Saber.ttf);
+}
+
+html {
+    background-color: #1a1a1a;
+    color: #dedede;
+    font-family: Open Sans;
+}
+footer {
+    font-size: .8em;
+    text-align: center;
+    color: #570000;
+    margin: 30px;
+}
+
+p {
+    margin: 20px;   
+}
+
+h3 {
+    font-size: 1.5em;
+    text-align: center;
+    padding: 50px;
+}
+
+h4 {
+    font-size: 1.4em;
+    text-align: center;
+    text-decoration: underline;
+}
+
+h1 {
+    text-align: center;
+    font-size: 5em;
+    font-family: saber;
+    color: #870000;
+}
+
+section {
+    margin: 40px 20px 40px 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px double #330000;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 1000px;
+    align-items: center;
+}
+
+a:link {
+    color: #870000;
+}
+
+a:visited {
+    color: #570000;
+}
