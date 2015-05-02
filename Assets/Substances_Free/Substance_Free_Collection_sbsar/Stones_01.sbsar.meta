@@ -1,15 +1,13 @@
 fileFormatVersion: 2
 guid: ff8dc016aab43294ba6d723085b266d4
-timeCreated: 1430161097
-licenseType: Free
 SubstanceImporter:
   serializedVersion: 5
   materialInstances:
   - serializedVersion: 15
-    name: Stones1
+    name: Stones_01
     prototypeName: Stones_01
     shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-    shaderKeywords: _NORMALMAP _PARALLAXMAP
+    shaderKeywords: 
     renderQueue: -1
     inputs:
     - name: $normalformat
@@ -160,7 +158,7 @@ SubstanceImporter:
             name: _BumpMap
           second:
             texture: {instanceID: 0}
-            scale: {x: 1, y: 2.5}
+            scale: {x: 1, y: 1}
             offset: {x: 0, y: 0}
         data:
           first:
@@ -174,7 +172,7 @@ SubstanceImporter:
             name: _ParallaxMap
           second:
             texture: {instanceID: 0}
-            scale: {x: 1, y: 2.5}
+            scale: {x: 1, y: 1}
             offset: {x: 0, y: 0}
         data:
           first:
@@ -268,7 +266,7 @@ SubstanceImporter:
         data:
           first:
             name: _EmissionColor
-          second: {r: 0, g: 0, b: 0, a: 0}
+          second: {r: 0, g: 0, b: 0, a: 1}
         data:
           first:
             name: _Color
@@ -278,22 +276,22 @@ SubstanceImporter:
             name: _EmissionColorUI
           second: {r: 1, g: 1, b: 1, a: 1}
     textureParameters:
-    - name: Stones1_Diffuse
+    - name: Stones_01_Diffuse
       alphaSource: 5
       filterMode: 1
       aniso: 1
       wrapMode: 0
-    - name: Stones1_Specular
+    - name: Stones_01_Specular
       alphaSource: 0
       filterMode: 1
       aniso: 1
       wrapMode: 0
-    - name: Stones1_Normal
+    - name: Stones_01_Normal
       alphaSource: 0
       filterMode: 1
       aniso: 1
       wrapMode: 0
-    - name: Stones1_Height
+    - name: Stones_01_Height
       alphaSource: 0
       filterMode: 1
       aniso: 1

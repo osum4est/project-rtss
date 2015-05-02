@@ -499,15 +499,11 @@ private function MoveWithPlatform () : boolean {
 	);
 }
 
-
-public var shiftSpeed : float = 2.0;
-
 private function GetDesiredHorizontalVelocity () {
 	// Find desired velocity
 	var desiredLocalDirection : Vector3 = tr.InverseTransformDirection(inputMoveDirection);
 	var maxSpeed : float = MaxSpeedInDirection(desiredLocalDirection);
-	var	speed : float = 1.0;
-	
+	var speed : float = 1.0;
 	if (grounded) {
 		// Modify max speed on slopes based on slope speed multiplier curve
 		var movementSlopeAngle = Mathf.Asin(movement.velocity.normalized.y)  * Mathf.Rad2Deg;
@@ -516,7 +512,7 @@ private function GetDesiredHorizontalVelocity () {
 	
 	if(Input.GetKey(KeyCode.LeftShift))
 	{
-		speed = shiftSpeed;;
+		speed = 2;
 	}
 	else
 	{
@@ -525,7 +521,6 @@ private function GetDesiredHorizontalVelocity () {
 	
 	return tr.TransformDirection(desiredLocalDirection * maxSpeed*speed);
 }
-
 private function AdjustGroundVelocityToNormal (hVelocity : Vector3, groundNormal : Vector3) : Vector3 {
 	var sideways : Vector3 = Vector3.Cross(Vector3.up, hVelocity);
 	return Vector3.Cross(sideways, groundNormal).normalized * hVelocity.magnitude;

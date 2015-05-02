@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Networkstuff : MonoBehaviour
+public class Networkstuff : Photon.MonoBehaviour
 {
 	public static PlayerStats me;
 	public static Networkstuff instance;
+	public GameObject player;
 
 	public void Start ()
 	{
@@ -15,27 +16,26 @@ public class Networkstuff : MonoBehaviour
 	void Connect ()
 	{
 		int pickedLevel = MenuManager.instance.level;
-		
-		string build = "003";
+		string server = MenuManager.instance.serverName;
+		PhotonNetwork.player.name = MenuManager.instance.nickName;
+
+		string build = "005" + server;
 		if (pickedLevel == 1) {
 			if (!PhotonNetwork.connectedAndReady)
 				PhotonNetwork.ConnectUsingSettings ("FPS+RTS MountainRange " + build);
 			else
 				SpawnMyPlayer ();
-		}
-		else if (pickedLevel == 2){
+		} else if (pickedLevel == 2) {
 			if (!PhotonNetwork.connectedAndReady)
 				PhotonNetwork.ConnectUsingSettings ("FPS+RTS DarkForest " + build);
 			else
 				SpawnMyPlayer ();
-		} 
-		else if (pickedLevel == 3){
+		} else if (pickedLevel == 3) {
 			if (!PhotonNetwork.connectedAndReady)
 				PhotonNetwork.ConnectUsingSettings ("FPS+RTS ParticleTree " + build);
 			else
 				SpawnMyPlayer ();
-		}
-		else if (pickedLevel == 4){
+		} else if (pickedLevel == 4) {
 			if (!PhotonNetwork.connectedAndReady)
 				PhotonNetwork.ConnectUsingSettings ("FPS+RTS Mineshaft " + build);
 			else
@@ -50,25 +50,32 @@ public class Networkstuff : MonoBehaviour
 
 	void OnJoinedLobby ()
 	{
+		Debug.Log ("OnJoinedLobby");
 		PhotonNetwork.JoinRandomRoom ();
 	}
 
 	void OnPhotonRandomJoinFailed ()
 	{
+		Debug.Log ("OnPhotonRandomJoinFailed");
 		PhotonNetwork.CreateRoom (null);
 	}
 
 	void OnJoinedRoom ()
 	{
-		SpawnMyPlayer ();
+		Debug.Log ("OnJoinedRoom");
+		player = SpawnMyPlayer ();
+		player.GetPhotonView().RPC ("RecieveMessage", PhotonTargets.All, "<color=#820000><b><i>" + PhotonNetwork.player.name + "</i></b> has joined.</color>");
+
+
 	}
 
-	public void SpawnMyPlayer ()
+	public GameObject SpawnMyPlayer ()
 	{
-		GameObject myPlayer = (GameObject)PhotonNetwork.Instantiate ("CharacterController", Vector3.zero + Vector3.up * 5, Quaternion.identity, 0);
-
-		//((MonoBehaviour)GameObject.Find ("Main Camera").GetComponent ("MouseLook")).enabled = true;
-		//((MonoBehaviour)GameObject.FindGameObjectWithTag ("MainCamera").GetComponent ("MouseLook")).enabled = true;
+		Transform[] points = GameObject.FindGameObjectWithTag ("Spawn Point").GetComponent<SpawnPoints>().spawnPoints;
+		int i = Random.Range (0, points.Length);
+		Transform spawnPoint = points [i];
+		
+		GameObject myPlayer = (GameObject)PhotonNetwork.Instantiate ("CharacterController", spawnPoint.position, Quaternion.identity, 0);
 
 		((MonoBehaviour)myPlayer.GetComponent ("FPSInputController")).enabled = true;
 		((MonoBehaviour)myPlayer.GetComponent ("MouseLook")).enabled = true;
@@ -78,11 +85,39 @@ public class Networkstuff : MonoBehaviour
 		myPlayer.GetComponentInChildren<AudioListener> ().enabled = true;
 		myPlayer.GetComponentInChildren<Camera> ().enabled = true;
 		myPlayer.GetComponentInChildren<MouseLook> ().enabled = true;
+		myPlayer.GetComponentInChildren<PlayerStats> ().enabled = true;
+		myPlayer.GetComponentInChildren<ChatManager>().enabled = true;
+		myPlayer.AddComponent<PlayerAdder>();
 
+		myPlayer.GetComponentInChildren<PlayerStats>().isPlayer = true;
 
+		myPlayer.GetComponentInChildren<MeshRenderer>().enabled = false;
 
-		//myPlayer.GetComponentInChildren
-		myPlayer.GetComponent<PlayerStats> ().isPlayer = true;
+		Globals.instance.AddPlayer(PhotonNetwork.player.ID, myPlayer.GetComponentInChildren<PlayerStats>());
+		myPlayer.GetPhotonView().RPC("OtherPlayerSpawn", PhotonTargets.Others, PhotonNetwork.player.ID);
 
+		return myPlayer;
+	}
+
+	public void AddPlayerStats(int id)
+	{
+		GameObject playerMatch = null;
+		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+		{
+			if (id == player.GetComponent<PlayerStats>().photonPlayer)
+			{
+				playerMatch = player;
+				break;
+			}
+		}
+		
+		if (playerMatch == null)
+		{
+			Debug.LogError("No match for player id");
+		}
+		else
+		{
+			Globals.instance.AddPlayer(id, playerMatch.GetComponent<PlayerStats>());
+		}
 	}
 }

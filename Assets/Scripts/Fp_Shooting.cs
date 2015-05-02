@@ -4,35 +4,68 @@ using UnityEngine.UI;
 
 public class Fp_Shooting : Photon.MonoBehaviour
 {
+	public Gun_Rifle gun_Rifle;
+	public Gun_Pistol gun_Pistol;
+
 	public GameObject bulletPrefab;
 	public GameObject bulletCasePrefab;
+
 	Text ammoText; 
 	Text maxAmmoText; 
-	public GameObject gun;
+
 	public AudioSource audio1;
 	public AudioSource audio2;
 	public AudioSource audio3;
-	public int maxAmmo = 10;
-	public float bulletSpeed = 100f;
+
 	public float caseSpeed = 10f;
 
-	public Animator anim;
 	bool justFired = false;
+
+	Gun gun;
 	// Use this for initializa
 
 	void Start ()
 	{
 		ammoText = Globals.instance.ammoText;
 		maxAmmoText = Globals.instance.maxAmmo;
-		ammoText.text = maxAmmo.ToString ();
-		maxAmmoText.text = maxAmmo.ToString ();
+
+		gun_Rifle = new Gun_Rifle ();
+		gun_Pistol = new Gun_Pistol ();
+
+
+		SwitchGun (gun_Pistol);
+	}
+
+	void SwitchGun (Gun gun)
+	{
+		this.gun = gun;
+
+
+		Transform parent = Camera.main.transform;
+		foreach (Transform child in parent)
+			Destroy (child.gameObject);
+
+		GameObject gunGO = (GameObject)Instantiate (this.gun.gun, Vector3.zero, Quaternion.identity);
+		gunGO.transform.SetParent (Camera.main.transform);
+		gunGO.transform.localPosition = this.gun.gun.transform.position;
+		gunGO.transform.localRotation = this.gun.gun.transform.rotation;
+		ammoText.text = this.gun.currentAmmo.ToString ();
+		maxAmmoText.text = this.gun.maxAmmo.ToString ();
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
+		int ammo = gun.currentAmmo;
 
-		int ammo = int.Parse (ammoText.text);
+		if (Input.GetAxisRaw ("Mouse ScrollWheel") != 0) {
+			Debug.Log ("Switching weapon");
+			if (gun == gun_Rifle)
+				SwitchGun (gun_Pistol);
+			else
+				SwitchGun (gun_Rifle);
+		}
+
 		if (Input.GetButtonDown ("Fire1") && ammo > 0 || Input.GetAxis ("Fire1") == -1 && ammo > 0 && justFired == false) {
 			Camera cam = Camera.main;
 			//play gunshot sound
@@ -58,9 +91,9 @@ public class Fp_Shooting : Photon.MonoBehaviour
 //				}
 
 				if (h != null) {
-					Debug.Log (h.name + " is taking damage");
+					Debug.Log (PhotonPlayer.Find(h.photonPlayer).name + " is taking damage");
 					h.photonView.RPC ("TakeDamage", PhotonTargets.All, 20);
-					Debug.Log (h.name + " health is now: " + h.currentHealth);
+					//Debug.Log (h.photonPlayer.name + " health is now: " + h.currentHealth);
 				}
 
 			}
@@ -70,9 +103,10 @@ public class Fp_Shooting : Photon.MonoBehaviour
 			GameObject bulletCase = (GameObject)Instantiate (bulletCasePrefab, cam.transform.position, cam.transform.rotation);
 			bulletCase.GetComponent<Rigidbody> ().AddForce (cam.transform.right + cam.transform.forward * caseSpeed, ForceMode.Impulse);
 			//Account for the bullet fired
-			ammoText.text = (ammo - 1).ToString ();
+			gun.currentAmmo = (ammo - 1);
+			ammoText.text = gun.currentAmmo.ToString ();
 			justFired = true;
-			anim.SetTrigger ("IsShooting");
+			//anim.SetTrigger ("IsShooting");
 		}
 		if (Input.GetButton ("Fire2")) {
 			Camera cam = Camera.main;
@@ -87,7 +121,8 @@ public class Fp_Shooting : Photon.MonoBehaviour
 		}
 		if (Input.GetButtonDown ("Fire3")) {
 			audio3.Play ();
-			ammoText.text = maxAmmo.ToString ();
+			gun.currentAmmo = gun.maxAmmo;
+			ammoText.text = gun.currentAmmo.ToString ();
 		}
 		if (Input.GetAxis ("Fire1") == 0) {
 			justFired = false;

@@ -4,10 +4,11 @@ using UnityEngine.UI;
 
 public class PlayerStats : Photon.MonoBehaviour
 {
-
 	public int startingHealth = 100;
 	public int currentHealth;
-	public PhotonPlayer photonPlayer;
+
+	public int photonPlayer;
+
 
 	public bool isPlayer = false;
 
@@ -17,6 +18,10 @@ public class PlayerStats : Photon.MonoBehaviour
 		Globals.instance.healthBar.maxValue = startingHealth;
 	}
 
+	void Update()
+	{
+	}
+
 	[RPC]
 	public void TakeDamage (int amount)
 	{
@@ -24,7 +29,6 @@ public class PlayerStats : Photon.MonoBehaviour
 		if (isPlayer)
 			Globals.instance.healthBar.value = currentHealth;
 		if (currentHealth <= 0) {
-			//Debug.Log (name + " should DIE");
 			GameObject.Destroy (gameObject);
 
 			if (isPlayer)
@@ -33,11 +37,21 @@ public class PlayerStats : Photon.MonoBehaviour
 		}
 	}
 
+
+	[RPC]
+	public void OtherPlayerSpawn(int id)
+	{
+		PlayerAdder pa = gameObject.AddComponent<PlayerAdder>();
+		pa.mode = 1;
+		pa.id = id;
+	}
+
 	public void Respawn ()
 	{
 		currentHealth = startingHealth;
 		if (isPlayer) {
 			Globals.instance.healthBar.value = currentHealth;
+			Globals.instance.opponents.Remove(PhotonNetwork.player.ID);
 			Networkstuff.instance.SpawnMyPlayer ();
 		}
 	}
