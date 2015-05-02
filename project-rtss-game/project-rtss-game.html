@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Unity Web Player | Project R.T.S.S</title>
+		<title>Unity Web Player | Project RTSS</title>
 		<script type='text/javascript' src='https://ssl-webplayer.unity3d.com/download_webplayer-3.x/3.0/uo/jquery.min.js'></script>
 		<script type="text/javascript">
 		<!--
@@ -21,14 +21,14 @@
 				
 			};
 			var u = new UnityObject2(config);
-			
+
 			jQuery(function() {
 
 				var $missingScreen = jQuery("#unityPlayer").find(".missing");
 				var $brokenScreen = jQuery("#unityPlayer").find(".broken");
 				$missingScreen.hide();
 				$brokenScreen.hide();
-
+				
 				u.observeProgress(function (progress) {
 					switch(progress.pluginStatus) {
 						case "broken":
@@ -64,15 +64,15 @@
 		<!--
 		body {
 			font-family: Helvetica, Verdana, Arial, sans-serif;
-			background-color: black;
-			color: white;
+			background-color: white;
+			color: black;
 			text-align: center;
 		}
 		a:link, a:visited {
-			color: #bfbfbf;
+			color: #000;
 		}
 		a:active, a:hover {
-			color: #bfbfbf;
+			color: #666;
 		}
 		p.header {
 			font-size: small;
@@ -116,12 +116,17 @@
 		</style>
 	</head>
 	<body>
-		<p class="header"><span>Unity Web Player | </span>Project R.T.S.S</p>
+		<p class="header"><span>Unity Web Player | </span>Project RTSS</p>
 		<div class="content">
 			<div id="unityPlayer">
 				<div class="missing">
 					<a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
 						<img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
+					</a>
+				</div>
+				<div class="broken">
+					<a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now! Restart your browser after install.">
+						<img alt="Unity Web Player. Install now! Restart your browser after install." src="http://webplayer.unity3d.com/installation/getunityrestart.png" width="193" height="63" />
 					</a>
 				</div>
 			</div>
