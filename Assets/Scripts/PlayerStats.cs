@@ -27,7 +27,10 @@ public class PlayerStats : Photon.MonoBehaviour
 	{
 		currentHealth -= amount;
 		if (isPlayer)
+		{
 			Globals.instance.healthBar.value = currentHealth;
+			Globals.instance.animation.PlayDamage();
+		}
 		if (currentHealth <= 0) {
 			GameObject.Destroy (gameObject);
 

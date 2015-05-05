@@ -96,6 +96,8 @@ public class Networkstuff : Photon.MonoBehaviour
 		Globals.instance.AddPlayer(PhotonNetwork.player.ID, myPlayer.GetComponentInChildren<PlayerStats>());
 		myPlayer.GetPhotonView().RPC("OtherPlayerSpawn", PhotonTargets.Others, PhotonNetwork.player.ID);
 
+        Globals.instance.me = myPlayer;
+
 		return myPlayer;
 	}
 
