@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: cbbb2badd3816ff4a9073dd13d3cbba9
+timeCreated: 1431006338
+licenseType: Free
 SubstanceImporter:
   serializedVersion: 5
   materialInstances:
@@ -7,7 +9,7 @@ SubstanceImporter:
     name: Pavement_01
     prototypeName: Pavement_01
     shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
-    shaderKeywords: 
+    shaderKeywords: _NORMALMAP _PARALLAXMAP _SPECGLOSSMAP
     renderQueue: -1
     inputs:
     - name: $normalformat
@@ -125,7 +127,7 @@ SubstanceImporter:
     materialInformation:
       serializedVersion: 5
       offset: {x: 0, y: 0}
-      scale: {x: 1, y: 1}
+      scale: {x: 15, y: 2}
       generateMipmaps: 1
       generateAllOutputs: 0
       animationUpdateRate: 0
@@ -137,14 +139,14 @@ SubstanceImporter:
             name: _MainTex
           second:
             texture: {instanceID: 0}
-            scale: {x: 1, y: 1}
+            scale: {x: 15, y: 2}
             offset: {x: 0, y: 0}
         data:
           first:
             name: _BumpMap
           second:
             texture: {instanceID: 0}
-            scale: {x: 1, y: 1}
+            scale: {x: 1, y: 2}
             offset: {x: 0, y: 0}
         data:
           first:
@@ -158,7 +160,7 @@ SubstanceImporter:
             name: _ParallaxMap
           second:
             texture: {instanceID: 0}
-            scale: {x: 1, y: 1}
+            scale: {x: 1, y: 2}
             offset: {x: 0, y: 0}
         data:
           first:
@@ -172,7 +174,7 @@ SubstanceImporter:
             name: _EmissionMap
           second:
             texture: {instanceID: 0}
-            scale: {x: 1, y: 1}
+            scale: {x: 15, y: 2}
             offset: {x: 0, y: 0}
         data:
           first:
@@ -193,7 +195,7 @@ SubstanceImporter:
             name: _SpecGlossMap
           second:
             texture: {instanceID: 0}
-            scale: {x: 1, y: 1}
+            scale: {x: 1, y: 2}
             offset: {x: 0, y: 0}
       floats:
         data:
@@ -248,7 +250,7 @@ SubstanceImporter:
         data:
           first:
             name: _EmissionColor
-          second: {r: 0, g: 0, b: 0, a: 1}
+          second: {r: 0, g: 0, b: 0, a: 0}
         data:
           first:
             name: _Color

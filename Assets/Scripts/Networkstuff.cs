@@ -40,6 +40,11 @@ public class Networkstuff : Photon.MonoBehaviour
 				PhotonNetwork.ConnectUsingSettings ("FPS+RTS Mineshaft " + build);
 			else
 				SpawnMyPlayer ();
+		} else if (pickedLevel == 5) {
+			if (!PhotonNetwork.connectedAndReady)
+				PhotonNetwork.ConnectUsingSettings ("FPS+RTS Museum " + build);
+			else
+				SpawnMyPlayer ();
 		}
 	}
 
@@ -64,14 +69,14 @@ public class Networkstuff : Photon.MonoBehaviour
 	{
 		Debug.Log ("OnJoinedRoom");
 		player = SpawnMyPlayer ();
-		player.GetPhotonView().RPC ("RecieveMessage", PhotonTargets.All, "<color=#820000><b><i>" + PhotonNetwork.player.name + "</i></b> has joined.</color>");
+		player.GetPhotonView ().RPC ("RecieveMessage", PhotonTargets.All, "<color=#820000><b><i>" + PhotonNetwork.player.name + "</i></b> has joined.</color>");
 
 
 	}
 
 	public GameObject SpawnMyPlayer ()
 	{
-		Transform[] points = GameObject.FindGameObjectWithTag ("Spawn Point").GetComponent<SpawnPoints>().spawnPoints;
+		Transform[] points = GameObject.FindGameObjectWithTag ("Spawn Point").GetComponent<SpawnPoints> ().spawnPoints;
 		int i = Random.Range (0, points.Length);
 		Transform spawnPoint = points [i];
 		
@@ -86,40 +91,35 @@ public class Networkstuff : Photon.MonoBehaviour
 		myPlayer.GetComponentInChildren<Camera> ().enabled = true;
 		myPlayer.GetComponentInChildren<MouseLook> ().enabled = true;
 		myPlayer.GetComponentInChildren<PlayerStats> ().enabled = true;
-		myPlayer.GetComponentInChildren<ChatManager>().enabled = true;
-		myPlayer.AddComponent<PlayerAdder>();
+		myPlayer.GetComponentInChildren<ChatManager> ().enabled = true;
+		myPlayer.AddComponent<PlayerAdder> ();
 
-		myPlayer.GetComponentInChildren<PlayerStats>().isPlayer = true;
+		myPlayer.GetComponentInChildren<PlayerStats> ().isPlayer = true;
 
-		myPlayer.GetComponentInChildren<MeshRenderer>().enabled = false;
+		myPlayer.GetComponentInChildren<MeshRenderer> ().enabled = false;
 
-		Globals.instance.AddPlayer(PhotonNetwork.player.ID, myPlayer.GetComponentInChildren<PlayerStats>());
-		myPlayer.GetPhotonView().RPC("OtherPlayerSpawn", PhotonTargets.Others, PhotonNetwork.player.ID);
+		Globals.instance.AddPlayer (PhotonNetwork.player.ID, myPlayer.GetComponentInChildren<PlayerStats> ());
+		myPlayer.GetPhotonView ().RPC ("OtherPlayerSpawn", PhotonTargets.Others, PhotonNetwork.player.ID);
 
-        Globals.instance.me = myPlayer;
+		Globals.instance.me = myPlayer;
 
 		return myPlayer;
 	}
 
-	public void AddPlayerStats(int id)
+	public void AddPlayerStats (int id)
 	{
 		GameObject playerMatch = null;
-		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-		{
-			if (id == player.GetComponent<PlayerStats>().photonPlayer)
-			{
+		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")) {
+			if (id == player.GetComponent<PlayerStats> ().photonPlayer) {
 				playerMatch = player;
 				break;
 			}
 		}
 		
-		if (playerMatch == null)
-		{
-			Debug.LogError("No match for player id");
-		}
-		else
-		{
-			Globals.instance.AddPlayer(id, playerMatch.GetComponent<PlayerStats>());
+		if (playerMatch == null) {
+			Debug.LogError ("No match for player id");
+		} else {
+			Globals.instance.AddPlayer (id, playerMatch.GetComponent<PlayerStats> ());
 		}
 	}
 }

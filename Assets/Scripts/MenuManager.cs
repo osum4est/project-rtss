@@ -90,6 +90,12 @@ public class MenuManager : MonoBehaviour
 		loadLevel (7);
 	}
 
+	public void StartMuseum ()
+	{
+		level = 5;
+		loadLevel (8);
+	}
+
 	void loadLevel (int x)
 	{
 
@@ -99,8 +105,8 @@ public class MenuManager : MonoBehaviour
 		GameObject s = GameObject.Instantiate (scripts);
 		DontDestroyOnLoad (s);
 
-		GameObject e = GameObject.Instantiate(events);
-		DontDestroyOnLoad(e);
+		GameObject e = GameObject.Instantiate (events);
+		DontDestroyOnLoad (e);
 
 		nickName = inputName.text;
 
